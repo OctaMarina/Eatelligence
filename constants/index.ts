@@ -1,10 +1,23 @@
 import onboarding1 from '@/assets/images/onboarding1.png'
 import onboarding2 from '@/assets/images/onboarding2.png'
 import onboarding3 from '@/assets/images/onboarding3.png'
+import textLogo from '@/assets/images/logo-with-text.png'
+import person from "@/assets/icons/person.png";
+import email from "@/assets/icons/email.png";
+import lock from "@/assets/icons/lock.png";
+import google from "@/assets/icons/google.png"
 export const images={
     onboarding1,
     onboarding2,
-    onboarding3
+    onboarding3,
+    textLogo
+}
+
+export const icons ={
+    person,
+    email,
+    lock,
+    google
 }
 
 export const onboarding = [
