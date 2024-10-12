@@ -1,42 +1,34 @@
-import { Link, router } from "expo-router";
-import { useCallback, useState } from "react";
-import { Alert, Image, ScrollView, Text, View } from "react-native";
-
+import {Link} from "expo-router";
+import { useState } from "react";
+import { ScrollView, Text, View } from "react-native";
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
-import { icons, images } from "@/constants";
+import { icons } from "@/constants";
+
+import {useAuth} from "@/contexts/AuthContext";
+import {FirebaseError} from "@firebase/app";
 
 const SignIn = () => {
-    // const { signIn, setActive, isLoaded } = useSignIn();
-
+    const { signInWithEmail } = useAuth()
+    const [ error, setError ] = useState<string | null >(null)
     const [form, setForm] = useState({
         email: "",
         password: "",
     });
 
-    // const onSignInPress = useCallback(async () => {
-    //     if (!isLoaded) return;
-    //
-    //     try {
-    //         const signInAttempt = await signIn.create({
-    //             identifier: form.email,
-    //             password: form.password,
-    //         });
-    //
-    //         if (signInAttempt.status === "complete") {
-    //             await setActive({ session: signInAttempt.createdSessionId });
-    //             router.replace("/(root)/(tabs)/home");
-    //         } else {
-    //             // See https://clerk.com/docs/custom-flows/error-handling for more info on error handling
-    //             console.log(JSON.stringify(signInAttempt, null, 2));
-    //             Alert.alert("Error", "Log in failed. Please try again.");
-    //         }
-    //     } catch (err: any) {
-    //         console.log(JSON.stringify(err, null, 2));
-    //         Alert.alert("Error", err.errors[0].longMessage);
-    //     }
-    // }, [isLoaded, form]);
+    const onSignInPressed = async () =>{
+        try {
+            await signInWithEmail(form.email, form.password)
+        }catch (e){
+            if (e instanceof FirebaseError) {
+                setError(e.message);
+            }else {
+                setError("An unexpected error occurred.");
+            }
+        }
+    }
+
 
     return (
         <ScrollView className="flex-1 bg-white">
@@ -66,15 +58,18 @@ const SignIn = () => {
                         value={form.password}
                         onChangeText={(value) => setForm({ ...form, password: value })}
                     />
-
+                    {error&&
+                        <Text className="text-lg text-center text-red-500 ">
+                            Incorrect username or password. Please try again.
+                        </Text>
+                    }
                     <CustomButton
                         title="Sign In"
-                        onPress={()=>{}}
+                        onPress={onSignInPressed}
                         className="mt-6"
                     />
 
                     <OAuth />
-
                     <Link
                         href="/sign-up"
                         className="text-lg text-center text-general-200 mt-10"

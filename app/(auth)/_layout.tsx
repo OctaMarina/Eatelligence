@@ -1,6 +1,17 @@
-import { Stack } from "expo-router";
+import {router, Stack} from "expo-router";
+import {useEffect} from "react";
+import {useAuth} from "@/contexts/AuthContext";
 
 const Layout = () => {
+    const { currentUser, loading } = useAuth();
+    useEffect(() => {
+        if (loading) return;
+
+        if (currentUser) {
+            console.log("logged in user")
+            router.replace("/(root)/home");
+        }
+    }, [currentUser, loading]);
     return (
         <Stack>
             <Stack.Screen name="welcome" options={{ headerShown: false }} />
