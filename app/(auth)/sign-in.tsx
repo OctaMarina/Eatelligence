@@ -63,12 +63,17 @@ const SignIn = () => {
                             Incorrect username or password. Please try again.
                         </Text>
                     }
+                    <Link
+                        href="/forgot-password"
+                        className="text-lg text-right text-general-200 mt-2"
+                    >
+                        Forgot password?{" "}
+                    </Link>
                     <CustomButton
                         title="Sign In"
                         onPress={onSignInPressed}
                         className="mt-6"
                     />
-
                     <OAuth />
                     <Link
                         href="/sign-up"

@@ -1,10 +1,10 @@
 import { initializeApp } from "firebase/app";
-// @ts-ignore
-import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-// https://firebase.google.com/docs/web/setup#available-libraries
 
+import { initializeAuth } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';  // Import corect pentru AsyncStorage
+//@ts-ignore
+import { getReactNativePersistence } from '@firebase/auth/dist/rn/index.js';
+// Tipurile pentru configurarea Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyAQxN2Djlz7poUJXwgtnPdnzPJ-rzV7WUo",
     authDomain: "unplugged-e9593.firebaseapp.com",
@@ -15,11 +15,12 @@ const firebaseConfig = {
     measurementId: "G-WS61E5VRXG"
 };
 
-// Initialize Firebase
+// Inițializează aplicația Firebase
 const app = initializeApp(firebaseConfig);
 
+// Inițializează Firebase Auth cu persistență în AsyncStorage
 const auth = initializeAuth(app, {
-    persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+    persistence: getReactNativePersistence(AsyncStorage)  // Utilizează corect AsyncStorage
 });
 
 export { app, auth };

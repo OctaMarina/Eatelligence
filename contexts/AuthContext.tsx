@@ -1,23 +1,23 @@
 import { ReactNode, useEffect, useState } from "react";
 import { createContext, useContext } from 'react';
 import { auth } from "@/firebaseConfig";
-import {createUserWithEmailAndPassword, User, UserCredential, onAuthStateChanged, signOut} from "@firebase/auth";
+import {
+    createUserWithEmailAndPassword,
+    User,
+    UserCredential,
+    onAuthStateChanged,
+    signOut,
+    sendPasswordResetEmail,
+    GoogleAuthProvider,
+    signInWithPopup
+} from "@firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
+
 
 
 interface AuthProviderProps {
     children: ReactNode;
 }
-
-interface AuthContextType {
-    currentUser: User | null;
-    signInWithEmail: (email: string, password: string) => Promise<User>;
-    signUpWithEmail: (email: string, password: string) => Promise<User>;
-    logOut: () => Promise<void>;
-    loading: boolean;
-    error: string;
-}
-
 
 const AuthContext = createContext<any>(null);
 export const useAuth = () => {
@@ -37,6 +37,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setLoading(false);
         }
     };
+
+    const signInWithGoogle = async()=>{
+
+    }
 
     const signInWithEmail = async (email: string, password: string) => {
         try {
@@ -58,6 +62,16 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setLoading(false);
         }
     };
+
+    const resetPassword = async (email:string)=>{
+        try {
+            await sendPasswordResetEmail(auth, email)
+        }catch(error: any){
+            throw error;
+        }finally {
+            setLoading(false)
+        }
+    }
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
@@ -66,15 +80,13 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return () => unsubscribe();
     }, []);
 
-    useEffect(() => {
-        console.log("loading",loading)
-    }, [loading]);
 
     const value = {
         currentUser,
         signInWithEmail,
         signUpWithEmail,
         logOut,
+        resetPassword,
         loading,
     };
 

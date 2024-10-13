@@ -10,7 +10,6 @@ const Home = () => {
     const handleLogout = () => {
         logOut()
             .then(() => {
-                console.log("User logged out");
                 router.replace("/(auth)/sign-in")
             })
             .catch((error: any) => {

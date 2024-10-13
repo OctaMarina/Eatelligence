@@ -1,15 +1,11 @@
-import { router } from "expo-router";
-import { Alert, Image, Text, View } from "react-native";
-
+import React from 'react';
+import { Image, Text, View } from "react-native";
 import CustomButton from "@/components/CustomButton";
 import { icons } from "@/constants";
+import {useAuth} from "@/contexts/AuthContext";
 
 const OAuth = () => {
-    // const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
-
-    const handleGoogleSignIn = async () => {
-        //todo
-    };
+    const { signInWithGoogle, currentUser } = useAuth();
 
     return (
         <View>
@@ -19,20 +15,24 @@ const OAuth = () => {
                 <View className="flex-1 h-[1px] bg-general-100" />
             </View>
 
-            <CustomButton
-                title="Log In with Google"
-                className="mt-5 w-full shadow-none"
-                IconLeft={() => (
-                    <Image
-                        source={icons.google}
-                        resizeMode="contain"
-                        className="w-5 h-5 mx-2"
-                    />
-                )}
-                bgVariant="outline"
-                textVariant="primary"
-                onPress={handleGoogleSignIn}
-            />
+            <View className="flex flex-row space-x-10">
+                <CustomButton
+                    className="mt-5 w-full shadow-none flex-1"
+                    title=""
+                    IconLeft={() => (
+                        <Image
+                            source={icons.google}
+                            resizeMode="contain"
+                            className="w-5 h-5 mx-2"
+                        />
+                    )}
+                    bgVariant="outline"
+                    textVariant="primary"
+                    onPress={signInWithGoogle}
+                />
+            </View>
+
+
         </View>
     );
 };

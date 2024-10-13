@@ -8,7 +8,6 @@ const Layout = () => {
         if (loading) return;
 
         if (currentUser) {
-            console.log("logged in user")
             router.replace("/(root)/home");
         }
     }, [currentUser, loading]);
@@ -17,6 +16,8 @@ const Layout = () => {
             <Stack.Screen name="welcome" options={{ headerShown: false }} />
             <Stack.Screen name="sign-up" options={{ headerShown: false }} />
             <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+            <Stack.Screen name="forgot-password" options = {{headerShown:false}}/>
+            <Stack.Screen name="notification" options = {{headerShown:false}}/>
         </Stack>
     );
 };
