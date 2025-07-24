@@ -68,13 +68,6 @@ The dataset is ideal for training machine learning models focused on nutritional
 
 ---
 
-## ⚠️ Model File Note
-
-The model file `server/model_cal_savedmodel.keras` (~183MB) was removed from version control due to GitHub’s [100MB file size limit](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github).  
-To run the model locally, you’ll need to load or download the file manually.
-
----
-
 ## 📄 License
 
 This project is intended for **research and educational purposes only**.  
