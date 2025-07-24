@@ -1,50 +1,87 @@
-# Welcome to your Expo app 👋
+# Eatelligence
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Eatelligence** is an AI-powered proof-of-concept that estimates the nutritional values of a meal from a single image using deep learning.
 
-## Get started
+At its core lies a convolutional neural network trained on real-world food images and macronutrient labels from the [Nutrition5k dataset](https://github.com/apple/ml-nutrition5k). The mobile and server components exist solely to **demonstrate the capabilities of the AI model in an end-to-end setting**.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 🧠 AI Model – Core of the Project
 
-2. Start the app
+The AI model was developed and evaluated in the notebook:
 
-   ```bash
-    npx expo start
-   ```
+📍 [`notebooks/nutrition5k_model_dev_and_eda.ipynb`](notebooks/nutrition5k_model_dev_and_eda.ipynb)
 
-In the output, you'll find options to open the app in a
+This notebook includes:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Preprocessing & visualization of the Nutrition5k dataset
+- Comparative study of 8+ model architectures (CNNs, EfficientNet)
+- Custom calorie-prioritized loss function for improved kcal prediction
+- Post-hoc linear correction for calories (Ridge regression)
+- Full evaluation (MAE, RMSE, R²) across macronutrients and total calories
+- Final model export for deployment (.h5 / SavedModel format)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+> 🧮 The final model achieves **MAE of ~36.9 kcal**, reduced to **28.4 kcal** after post-hoc calibration.
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## 📱 React Native App (Frontend)
+
+A simple React Native app allows users to:
+
+- Take or upload a photo of a meal
+- Send the image to the backend over HTTP
+- Receive estimated nutritional values in real time
+
+This interface demonstrates how the AI model can be integrated into a mobile experience.
+
+---
+
+## 🌐 Flask Server (Backend)
+
+A lightweight Flask server handles:
+
+- Loading the trained deep learning model
+- Accepting image uploads via POST requests
+- Running inference and returning structured JSON responses
+
+Dependencies include: `Flask`, `TensorFlow`, `NumPy`, and `Pillow`.
+
+---
+
+## ▶️ Run the Mobile App
+
+To run the React Native frontend locally:
 
 ```bash
-npm run reset-project
+npm install
+npx react-native run-android  # or run-ios
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Make sure the Flask server is running and accessible from your device (e.g., http://localhost:5000 for emulators or your IP address for real devices).
 
-## Learn more
+## 📚 Dataset
 
-To learn more about developing your project with Expo, look at the following resources:
+This project uses [Nutrition5k](https://github.com/apple/ml-nutrition5k), a research dataset of plated meals and detailed nutritional annotations released by Apple.  
+It includes over 5,000 meal samples with images and corresponding macronutrient information (calories, protein, fat, and carbohydrates).  
+The dataset is ideal for training machine learning models focused on nutritional analysis from visual input.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## ⚠️ Model File Note
 
-Join our community of developers creating universal apps.
+The model file `server/model_cal_savedmodel.keras` (~183MB) was removed from version control due to GitHub’s [100MB file size limit](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github).  
+To run the model locally, you’ll need to load or download the file manually.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+## 📄 License
+
+This project is intended for **research and educational purposes only**.  
+Please refer to the original [Nutrition5k license](https://github.com/apple/ml-nutrition5k/blob/main/LICENSE) for dataset usage terms.
+
+---
+
+## 📫 Contact
+
+For questions, ideas, or contributions, feel free to reach out via [my contact page](https://octavianmarina.com/#contact).
